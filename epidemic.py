@@ -78,8 +78,17 @@ class Populacja:
     
     
     def zapisz_do_pliku(self, nazwa_pliku):
-        print("TODO: w tym miejscu powinno sie zapisac do pliku {}".format(nazwa_pliku))
-        
+        with open(str(nazwa_pliku), "w", encoding = "utf-8") as f:
+            f.write("Pacjenci w populacji:\n")
+            for pacjent in self._pacjenci:
+                f.write(str(pacjent.status) + ";" + str(pacjent.x) + ";" + str(pacjent.y) + ";\n;")
+    def odczyt_z_pliku(self, nazwa_pliku):
+        with open(str(nazwa_pliku), "r", encoding = "utf-8") as f:
+            lista = f.read().split(";")[1:]
+            lista = list(filter(lambda x: x!="\n",lista))
+            self._pacjenci.clear()
+            for i in range(len(lista)//3):
+                self._pacjenci.append(Pacjent(lista[3*i],lista[3*i+1],lista[3*i+2]))
     
     def ruch(self):
         """ Wykonaj ruch przesuwając każdego z pacjentów"""
